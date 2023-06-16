@@ -1,7 +1,15 @@
+# write this script to a file eg: gen-key.sh
+# then run gen-key.sh > ./genlog.log&
+# the output of "go test -v" should be saved, because circuit constraints info is useful for mpc
+
 #ZkBNB_REPO_PATH=$(cd `dirname $0`; pwd)
 
 ZKBNB_OPTIONAL_BLOCK_SIZES=8,16,32,64
 ZKBNB_R1CS_BATCH_SIZE=100000
+
+OP_TIME=$(date "+%Y-%m-%d-%H:%M:%S")
+
+mv ./deploy ./.deploy-"${OP_TIME}"
 
 mkdir deploy
 cd deploy
@@ -41,5 +49,4 @@ PROVING_KEYS=$(echo "${keys[*]}" | tr ' ' ',')
 python3 verifier_parse.py ${VERIFIER_CONTRACTS} ${ZKBNB_OPTIONAL_BLOCK_SIZES} ${DEPLOY_PATH}/zkbnb-contract/contracts/ZkBNBVerifier.sol
 
 cp ${DEPLOY_PATH}/zkbnb-contract/contracts/ZkBNBVerifier.sol ${SOL_PATH}/ZkBNBVerifier.sol
-
 
